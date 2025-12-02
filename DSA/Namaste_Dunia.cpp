@@ -45,11 +45,21 @@ int main()
 
     /* Type Casting*/
 
-    int ch = 'A';
-    cout << "Value of ch is :" << ch << endl;
+    // int ch = 'A';
+    // cout << "Value of ch is :" << ch << endl;
 
-    char ch2 = 123456789;
-    cout << "Value of ch2 is :" << ch2 << endl; //here the range of char is only 1 byte but the range of int is of 4 bytes and given numbver is out of range from the char so it will print some garbage value.    
+    // char ch2 = 123456789;
+    // cout << "Value of ch2 is :" << ch2 << endl; //here the range of char is only 1 byte but the range of int is of 4 bytes and given numbver is out of range from the char so it will print some garbage value.
+
+    // unsigned int x = -5;
+    // cout << "Value of x is :" << x << endl; //here unsigned int can only store positive values so when we try to store negative value it will convert it into some large positive value.
+    
+    /*Operators*/
+
+    int a = 10;
+    int b = 11;
+    cout << "a/b = " << a / b << endl; // it will print 0 because both a and b are integers so it will perform integer division.
+    cout << "a/(float)b = " << a / (float)b << endl; // here we are type casting b to float so it will perform float division and give the correct result.
 
     return 0;
 }
