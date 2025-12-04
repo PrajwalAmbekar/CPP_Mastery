@@ -1,0 +1,25 @@
+# Build files
+*.exe
+*.out
+*.o
+*.obj
+
+# C++ cache or debugging files
+*.ilk
+*.pdb
+*.idb
+*.dll
+*.lib
+
+# VSCode settings/user-specific
+.vscode/
+*.code-workspace
+
+# OS generated files 👇
+.DS_Store
+Thumbs.db
+
+# Temporary backups
+*.log
+*.tmp
+*.swp
