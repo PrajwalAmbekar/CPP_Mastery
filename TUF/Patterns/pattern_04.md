@@ -2,140 +2,122 @@
 
 ## 🔍 Problem Summary (In My Words)
 
-We want to print a pattern of stars `*` where:
+Print a star pattern such that:
 
-- The first row has the maximum number of stars.
-- Each next row has one star less than the previous row.
+- First row prints the maximum number of stars.
+- Each next row prints one star less than the previous row.
 
-Example for 5 rows:
+Example for rows = 5:
 
+```
 *****
 ****
 ***
 **
 *
+```
 
 ---
 
 ## 🧠 Example
 
-Input:
-- rows = 5
+### Input:
+```
+rows = 5
+```
 
-Output:
+### Output:
+```
 *****
 ****
 ***
 **
 *
+```
 
 ---
 
-## 🚶 My Observation
+## 🚶 My Observations
 
-I observed that:
+I noticed a very important pattern-building rule:
 
-- The row number is increasing: 1, 2, 3, 4, ...
-- The number of stars is decreasing:
+| Pattern Type | Inner Loop Runs |
+|-------------|----------------|
+| Increasing triangle | `j = 1` to `i` |
+| Decreasing triangle | `j = i` to `rows` |
 
-  - Row 1 → 5 stars  
-  - Row 2 → 4 stars  
-  - Row 3 → 3 stars  
-  - Row 4 → 2 stars  
-  - Row 5 → 1 star  
+So,
+- For **increasing** pattern: stars printed depend on the row index → prints `i` times.
+- For **decreasing** pattern: stars printed depend on remaining rows → prints `(rows - i + 1)` times.
 
-So the number of stars in each row is:
+In this problem, we have decreasing pattern → so we used:
 
-- `rows - i + 1` (if `i` is the current row, starting from 1)
-
----
-
-## 🛠 Approach 1 – Using `j = i` to `j <= rows`  (My Code)
-
-I wrote the code like this (conceptually):
-
-- Outer loop: `i` goes from `1` to `rows`
-- Inner loop: `j` starts from `i` and runs while `j <= rows`
-- Inside inner loop, print `*`
-- After the inner loop, print a newline
-
-For each row:
-
-- When `i = 1` → `j` runs from 1 to rows → prints `rows` stars  
-- When `i = 2` → `j` runs from 2 to rows → prints `rows - 1` stars  
-- When `i = 3` → `j` runs from 3 to rows → prints `rows - 2` stars  
-
-So in general:
-
-- Stars printed in row `i` = `rows - i + 1`
-
-This matches the pattern I wanted.
+👉 **Inner loop: `j = i; j <= rows`**  
+which prints **rows - i + 1** stars.
 
 ---
 
-## 🛠 Approach 2 – Using Star Count Formula Directly
+## 🛠 Approach 1 – Using `j = i` to `j <= rows` (My Code Logic)
 
-Another way to write the same logic is:
+Here I start the inner loop with `j = i`.
 
-- Outer loop: `i` from `1` to `rows`
-- Inner loop: `j` from `1` to `rows - i + 1`
-- Print `*` inside inner loop
-- New line after inner loop
+- When `i = 1` → prints from 1 to rows → prints `rows` stars  
+- When `i = 2` → prints from 2 to rows → prints `rows - 1` stars  
+- When `i = 3` → prints from 3 to rows → prints `rows - 2` stars  
 
-Here, I directly use the formula:
+**General formula:** `stars = rows - i + 1`
 
-- Row 1 → `rows - 1 + 1 = rows` stars  
-- Row 2 → `rows - 2 + 1 = rows - 1` stars  
-- Row 3 → `rows - 3 + 1 = rows - 2` stars  
+This creates the inverted decreasing pattern.
 
-This approach is clearly tied to **rows only**.
+---
+
+## 🛠 Approach 2 – Using Direct Formula
+
+Instead of starting `j = i`,  
+we can directly calculate how many stars to print:
+
+- Row 1 → rows stars  
+- Row 2 → rows - 1 stars  
+- Row 3 → rows - 2 stars  
+
+So inner loop becomes:
+
+```
+for j = 1 to (rows - i + 1)
+```
+
+Same result — but logic becomes clearer.
 
 ---
 
 ## ⏱ Time & Space Complexity
 
-Both approaches use nested loops.
+This pattern prints:
 
-Total stars printed:
+```
+rows + (rows - 1) + (rows - 2) + ... + 1
+```
 
-- `rows + (rows - 1) + (rows - 2) + ... + 1`  
-- This sum is `rows * (rows + 1) / 2` → this is **O(rows²)**.
+This equals **rows × (rows + 1) / 2 → O(rows²)**
 
 | Approach | Time Complexity | Space Complexity |
-|----------|-----------------|------------------|
-| j = i to j <= rows | O(n²) | O(1) |
-| j = 1 to j <= rows - i + 1 | O(n²) | O(1) |
-
-(where `n = rows`)
+|----------|----------------|----------------|
+| j = i to rows | O(n²) | O(1) |
+| j = 1 to rows - i + 1 | O(n²) | O(1) |
 
 ---
 
-## 🐞 Mistakes / Things I Fixed
+## 🐞 Mistakes / Things I Corrected
 
-1. **Earlier version: used `j <= cols`**  
-   - I was reading both `rows` and `cols` from input.  
-   - Inner loop condition was: `while (j <= cols)`  
-   - This works only properly when `rows == cols`.  
-   - If rows and cols are different, pattern breaks (extra blank lines etc).
-
-2. **Current version: `j <= rows` but still reading `cols`**  
-   - Now the logic is correct for a triangle (it depends only on `rows`).  
-   - But I still ask the user for `cols` and don’t use it anywhere.  
-   - This makes the code slightly confusing / unnecessary input.
-
-✅ Final understanding:
-
-- This inverted triangle pattern **depends only on rows**.  
-- I don’t actually need `cols` for this problem.
-- Clean version would either:
-  - Remove `cols` completely, or  
-  - Use a square pattern where `rows == cols` and clearly say that.
+- Initially, I used `j <= cols` which only works properly when `rows == cols`.
+- Then I realized this pattern doesn't require `cols` at all.
+- This pattern depends only on `rows`, since we are reducing stars per row.
 
 ---
 
-## 📝 What I Learned From This Problem
+## 📝 What I Learned
 
-- Relationship between row index and how many stars get printed.
-- How `j = i` to `j <= rows` automatically gives decreasing stars.
-- Why tying logic to only the required variable (`rows`) makes the code cleaner.
-- How mixing `rows` and `cols` can cause confusion in triangle patterns.
+- For **increasing patterns** → inner loop: `j = 1` to `i`
+- For **decreasing patterns** → inner loop: `j = i` to `rows`
+- The formula `(rows - i + 1)` comes directly from understanding how many times the loop runs.
+- Better clarity comes when loop logic and pattern logic match.
